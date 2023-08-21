@@ -1,1 +1,17 @@
-$get-credential
+#Thes steps work for Exchange online. for local exchange, you will neet to run the $get credential.
+#First step is to connect to exchange online
+Connect-ExchangeOnline
+#Create the distribution list/group
+New-Distributongroup -Name "TestGroup" -Alias "TestG" -PrimarySmtpAddress "testgroup@domain.com" -Type distribution
+#Add a member to the distribution group
+Add-DistributionGroupMember -Identity "testgroup@domain.com" -Member "goummo@domain.com"
+
+#Add multiple members
+$Members = @("GradyA@domain.com","IsaiahL@domain.com","CredeS@domain.com")
+$Members | ForEach-Object {
+    #Initialise the command, write the identity, member will be itirated.
+    Add-DistributionGroupMember -Identity "testgroup@domain.com" -Member $_
+
+    #write host is just to display the different members being added.
+    Write-Host "Added Member:"$_
+}
